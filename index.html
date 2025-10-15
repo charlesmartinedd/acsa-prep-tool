@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACSA Education Leadership Prep Tool</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#1e3a8a',
+                        'navy-light': '#3b82f6',
+                        gold: '#f59e0b'
+                    },
+                    fontFamily: {
+                        'roboto': ['Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-bubble {
+            animation: bubbleIn 0.3s ease-out;
+        }
+
+        @keyframes bubbleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-graduation-cap text-white text-3xl"></i>
+                    <span class="text-white text-2xl font-bold">ACSA Prep Tool</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="resume.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-file-alt mr-2"></i>Resume
+                    </a>
+                    <a href="interview.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-microphone mr-2"></i>Interview
+                    </a>
+                    <a href="career-chat.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-comments mr-2"></i>Career Chat
+                    </a>
+                    <a href="resources.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-book mr-2"></i>Resources
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-3">
+                <a href="index.html" class="block text-white hover:text-gold transition-all duration-300 py-2">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="resume.html" class="block text-white hover:text-gold transition-all duration-300 py-2">
+                    <i class="fas fa-file-alt mr-2"></i>Resume
+                </a>
+                <a href="interview.html" class="block text-white hover:text-gold transition-all duration-300 py-2">
+                    <i class="fas fa-microphone mr-2"></i>Interview
+                </a>
+                <a href="career-chat.html" class="block text-white hover:text-gold transition-all duration-300 py-2">
+                    <i class="fas fa-comments mr-2"></i>Career Chat
+                </a>
+                <a href="resources.html" class="block text-white hover:text-gold transition-all duration-300 py-2">
+                    <i class="fas fa-book mr-2"></i>Resources
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20">
+        <div class="container mx-auto px-4 text-center fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">Prepare for Education Leadership</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
+                Build your resume, practice interviews, and get AI-powered career guidance for K-12 leadership roles
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="resume.html" class="bg-gold hover:brightness-110 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:scale-105">
+                    <i class="fas fa-file-alt mr-2"></i>Build Resume
+                </a>
+                <a href="interview.html" class="bg-white text-navy hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:scale-105">
+                    <i class="fas fa-microphone mr-2"></i>Practice Interview
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-navy">Everything You Need to Succeed</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 fade-in border-t-4 border-navy">
+                    <div class="text-navy text-4xl mb-4">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-navy">Resume Builder</h3>
+                    <p class="text-gray-700 leading-relaxed">Create professional resumes with AI-powered suggestions and leadership templates</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 fade-in border-t-4 border-navy-light">
+                    <div class="text-navy-light text-4xl mb-4">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-navy">Interview Practice</h3>
+                    <p class="text-gray-700 leading-relaxed">Practice with voice input, get AI feedback, and build confidence for your interview</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 fade-in border-t-4 border-gold">
+                    <div class="text-gold text-4xl mb-4">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-navy">Career Advisor</h3>
+                    <p class="text-gray-700 leading-relaxed">Chat with AI about career paths, leadership strategies, and next steps</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 fade-in border-t-4 border-green-500">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-navy">Resources</h3>
+                    <p class="text-gray-700 leading-relaxed">Access curated resources for education leadership development</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Help Section with Embedded Chatbot -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4 text-navy">Have Questions? Ask Our AI Assistant</h2>
+            <p class="text-center text-gray-600 mb-8 text-lg">Get instant answers about interviews, resumes, and education leadership</p>
+
+            <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-6">
+                <!-- Chat Messages Container -->
+                <div id="home-chat-messages" class="h-96 overflow-y-auto mb-4 space-y-3 p-4 bg-gray-50 rounded-lg">
+                    <!-- Welcome Message -->
+                    <div class="flex justify-start chat-bubble">
+                        <div class="bg-gray-200 text-gray-800 rounded-lg px-4 py-3 max-w-md shadow-md">
+                            <p class="font-medium text-sm text-navy mb-1">AI Assistant</p>
+                            <p class="leading-relaxed">👋 Hi! I'm here to help with questions about education leadership, interviews, resumes, or how to use this tool. What would you like to know?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Questions -->
+                <div class="mb-4 flex flex-wrap gap-2">
+                    <button class="quick-question bg-navy-light hover:bg-navy text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105" data-question="What are common interview questions for principals?">
+                        <i class="fas fa-question-circle mr-1"></i>Interview Questions
+                    </button>
+                    <button class="quick-question bg-navy-light hover:bg-navy text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105" data-question="How do I write a strong leadership resume?">
+                        <i class="fas fa-file-alt mr-1"></i>Resume Tips
+                    </button>
+                    <button class="quick-question bg-navy-light hover:bg-navy text-white px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105" data-question="What leadership style is best for principals?">
+                        <i class="fas fa-users mr-1"></i>Leadership Styles
+                    </button>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="flex gap-2">
+                    <input
+                        type="text"
+                        id="home-chat-input"
+                        placeholder="Ask about interviews, resumes, careers..."
+                        class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300"
+                    >
+                    <button id="home-chat-send" class="bg-gold hover:brightness-110 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300 shadow-lg hover:scale-105">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- Feedback Note -->
+                <p class="text-xs text-gray-500 mt-3 text-center">
+                    <i class="fas fa-shield-alt mr-1"></i>Local AI - No data shared externally
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg">&copy; 2025 ACSA Education Leadership Prep Tool</p>
+            <p class="text-sm mt-2 opacity-80">Powered by AI for Education Leaders</p>
+        </div>
+    </footer>
+
+    <!-- Utilities -->
+    <script src="js/utils.js"></script>
+    <script src="js/home-chat.js"></script>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

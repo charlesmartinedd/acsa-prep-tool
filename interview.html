@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Practice - ACSA Prep Tool</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#1e3a8a',
+                        'navy-light': '#3b82f6',
+                        gold: '#f59e0b'
+                    },
+                    fontFamily: {
+                        'roboto': ['Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .pulse-ring {
+            animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .recording-indicator {
+            animation: recording 1s ease-in-out infinite;
+        }
+
+        @keyframes recording {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <i class="fas fa-graduation-cap text-white text-3xl"></i>
+                    <span class="text-white text-2xl font-bold">ACSA Prep Tool</span>
+                </a>
+
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="resume.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-file-alt mr-2"></i>Resume
+                    </a>
+                    <a href="interview.html" class="text-gold font-bold">
+                        <i class="fas fa-microphone mr-2"></i>Interview
+                    </a>
+                    <a href="career-chat.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-comments mr-2"></i>Career Chat
+                    </a>
+                    <a href="resources.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-book mr-2"></i>Resources
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <div class="text-center mb-8 fade-in">
+            <h1 class="text-4xl font-bold text-navy mb-3">
+                <i class="fas fa-microphone mr-3"></i>Interview Practice
+            </h1>
+            <p class="text-lg text-gray-600">Practice education leadership interview questions with AI-powered feedback</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="bg-white rounded-lg shadow-lg p-4 mb-6 fade-in">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-navy">Question <span id="current-question">0</span> of <span id="total-questions">7</span></span>
+                <span class="text-sm font-medium text-navy" id="progress-percent">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="interview-progress-bar" class="bg-gradient-to-r from-navy to-navy-light h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Setup -->
+        <div id="setup-step" class="bg-white rounded-lg shadow-lg p-8 fade-in">
+            <h2 class="text-3xl font-bold text-navy mb-6 text-center">
+                <i class="fas fa-sliders-h mr-2"></i>Setup Your Interview
+            </h2>
+
+            <div class="space-y-6 max-w-2xl mx-auto">
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-3">
+                        <i class="fas fa-briefcase mr-2 text-navy"></i>Select Your Role
+                    </label>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <button class="role-btn p-6 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-role="Principal">
+                            <i class="fas fa-user-tie text-4xl text-navy mb-2"></i>
+                            <p class="font-bold">Principal</p>
+                        </button>
+                        <button class="role-btn p-6 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-role="Vice-Principal">
+                            <i class="fas fa-user-friends text-4xl text-navy-light mb-2"></i>
+                            <p class="font-bold">Vice-Principal</p>
+                        </button>
+                        <button class="role-btn p-6 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-role="Superintendent">
+                            <i class="fas fa-crown text-4xl text-gold mb-2"></i>
+                            <p class="font-bold">Superintendent</p>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-3">
+                        <i class="fas fa-layer-group mr-2 text-navy"></i>Experience Level
+                    </label>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <button class="level-btn p-6 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-level="Beginner">
+                            <i class="fas fa-seedling text-3xl text-green-500 mb-2"></i>
+                            <p class="font-bold">Beginner</p>
+                            <p class="text-sm text-gray-600">0-3 years experience</p>
+                        </button>
+                        <button class="level-btn p-6 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-level="Advanced">
+                            <i class="fas fa-medal text-3xl text-gold mb-2"></i>
+                            <p class="font-bold">Advanced</p>
+                            <p class="text-sm text-gray-600">3+ years experience</p>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-interview" disabled class="w-full bg-gradient-to-r from-navy to-navy-light text-white py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-play mr-2"></i>Generate Questions & Start Interview
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Question & Answer -->
+        <div id="question-step" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-6 fade-in">
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="bg-navy text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold flex-shrink-0">
+                        <span id="question-number">1</span>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-navy mb-4" id="current-question-text">
+                            Loading question...
+                        </h2>
+                        <p class="text-gray-600 text-sm">
+                            <i class="fas fa-info-circle mr-1"></i>Tip: Use the STAR method (Situation, Task, Action, Result) for behavioral questions
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Voice Controls -->
+                <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <div class="flex justify-center items-center gap-6 mb-4">
+                        <button id="start-recording" class="bg-red-500 hover:bg-red-600 text-white p-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 relative">
+                            <i class="fas fa-microphone text-4xl"></i>
+                            <span id="recording-ring" class="hidden absolute inset-0 border-4 border-red-500 rounded-full pulse-ring"></span>
+                        </button>
+                        <button id="stop-recording" disabled class="bg-gray-400 text-white p-6 rounded-full shadow-lg transition-all duration-300 disabled:opacity-50">
+                            <i class="fas fa-stop text-2xl"></i>
+                        </button>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <p class="text-sm text-gray-600 mb-2">
+                            <i class="fas fa-clock mr-1"></i>Recording Time: <span id="recording-time" class="font-bold">00:00</span> / 60s
+                        </p>
+                        <p id="recording-status" class="text-sm font-medium text-gray-700">Click the microphone to start recording</p>
+                        <p id="confidence-indicator" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="toggle-text-input" class="text-navy-light hover:text-navy underline text-sm transition-colors">
+                            <i class="fas fa-keyboard mr-1"></i>Prefer to type instead?
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Text Input (Hidden by default) -->
+                <div id="text-input-section" class="hidden mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Type Your Answer</label>
+                    <textarea id="answer-text" rows="6" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="Type your answer here..."></textarea>
+                </div>
+
+                <!-- Transcript Display -->
+                <div id="transcript-section" class="hidden mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Answer:</label>
+                    <div id="answer-transcript" class="bg-gray-50 border-2 border-gray-300 rounded-lg p-4 min-h-24 whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex gap-4">
+                    <button id="submit-answer" disabled class="flex-1 bg-gold hover:brightness-110 text-white py-4 rounded-lg font-bold text-lg shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit & Get Feedback
+                    </button>
+                    <button id="skip-question" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-4 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-forward mr-2"></i>Skip
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Feedback -->
+        <div id="feedback-step" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-8 fade-in">
+                <h2 class="text-2xl font-bold text-navy mb-6 flex items-center gap-3">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>AI Feedback</span>
+                    <div id="score-badge" class="ml-auto bg-gradient-to-r from-navy to-navy-light text-white px-4 py-2 rounded-full font-bold text-xl"></div>
+                </h2>
+
+                <div id="feedback-content" class="space-y-6">
+                    <!-- Feedback will be inserted here -->
+                </div>
+
+                <!-- Follow-up Question -->
+                <div id="followup-section" class="hidden mt-6 p-6 bg-blue-50 border-2 border-navy-light rounded-lg">
+                    <h3 class="text-lg font-bold text-navy mb-3">
+                        <i class="fas fa-question-circle mr-2"></i>Follow-up Question
+                    </h3>
+                    <p id="followup-question" class="text-gray-700 mb-4"></p>
+                    <button id="answer-followup" class="bg-navy hover:bg-navy-light text-white px-6 py-3 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-reply mr-2"></i>Answer This
+                    </button>
+                    <button id="skip-followup" class="ml-3 bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg font-bold transition-all duration-300">
+                        Skip
+                    </button>
+                </div>
+
+                <!-- Voice Feedback Controls -->
+                <div class="mt-6 flex gap-4 justify-center">
+                    <button id="speak-feedback" class="bg-navy-light hover:bg-navy text-white px-6 py-3 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-volume-up mr-2"></i>Listen to Feedback
+                    </button>
+                    <button id="stop-speaking" class="hidden bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-stop mr-2"></i>Stop
+                    </button>
+                </div>
+
+                <!-- Next Button -->
+                <button id="next-question" class="w-full mt-6 bg-gradient-to-r from-navy to-navy-light text-white py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                    <i class="fas fa-arrow-right mr-2"></i>Next Question
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 4: Summary -->
+        <div id="summary-step" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-8 fade-in">
+                <div class="text-center mb-8">
+                    <div class="inline-block bg-gradient-to-r from-green-400 to-green-600 text-white p-6 rounded-full mb-4">
+                        <i class="fas fa-check-circle text-6xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-navy mb-3">Interview Complete!</h2>
+                    <p class="text-lg text-gray-600">Great job practicing. Here's your performance summary:</p>
+                </div>
+
+                <!-- Overall Score -->
+                <div class="bg-gradient-to-r from-navy to-navy-light text-white rounded-lg p-6 mb-6 text-center">
+                    <p class="text-lg font-medium mb-2">Overall Average Score</p>
+                    <p id="overall-score" class="text-6xl font-bold">0</p>
+                    <p class="text-sm opacity-80 mt-2">out of 10</p>
+                </div>
+
+                <!-- Questions Summary Table -->
+                <div class="mb-6 overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-4 py-2 text-left">#</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Question</th>
+                                <th class="border border-gray-300 px-4 py-2 text-center">Score</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Key Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-table">
+                            <!-- Summary rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Overall Tips -->
+                <div class="bg-blue-50 border-2 border-navy-light rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-navy mb-3">
+                        <i class="fas fa-lightbulb mr-2"></i>Tips for Improvement
+                    </h3>
+                    <div id="overall-tips" class="space-y-2 text-gray-700">
+                        <!-- Tips will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button id="retry-weak" class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-redo mr-2"></i>Retry Weak Questions
+                    </button>
+                    <button id="download-summary" class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-download mr-2"></i>Download Summary
+                    </button>
+                    <button id="start-new" class="bg-navy hover:bg-navy-light text-white py-3 rounded-lg font-bold transition-all duration-300">
+                        <i class="fas fa-plus mr-2"></i>New Interview
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg">&copy; 2025 ACSA Education Leadership Prep Tool</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/interview.js"></script>
+</body>
+</html>

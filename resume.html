@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder - ACSA Prep Tool</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#1e3a8a',
+                        'navy-light': '#3b82f6',
+                        gold: '#f59e0b'
+                    },
+                    fontFamily: {
+                        'roboto': ['Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SortableJS for drag-drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #e0e7ff;
+        }
+
+        .suggestion-chip {
+            transition: all 0.3s ease;
+        }
+
+        .suggestion-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-section {
+            page-break-inside: avoid;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <i class="fas fa-graduation-cap text-white text-3xl"></i>
+                    <span class="text-white text-2xl font-bold">ACSA Prep Tool</span>
+                </a>
+
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="resume.html" class="text-gold font-bold">
+                        <i class="fas fa-file-alt mr-2"></i>Resume
+                    </a>
+                    <a href="interview.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-microphone mr-2"></i>Interview
+                    </a>
+                    <a href="career-chat.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-comments mr-2"></i>Career Chat
+                    </a>
+                    <a href="resources.html" class="text-white hover:text-gold transition-all duration-300 font-medium">
+                        <i class="fas fa-book mr-2"></i>Resources
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8 fade-in">
+            <h1 class="text-4xl font-bold text-navy mb-3">
+                <i class="fas fa-file-alt mr-3"></i>Resume Builder
+            </h1>
+            <p class="text-lg text-gray-600">Create a professional education leadership resume with AI-powered suggestions</p>
+        </div>
+
+        <!-- Template Selector -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6 fade-in">
+            <h2 class="text-2xl font-bold text-navy mb-4">
+                <i class="fas fa-layer-group mr-2"></i>Choose a Template
+            </h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <button class="template-btn p-4 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-template="principal">
+                    <i class="fas fa-user-tie text-4xl text-navy mb-2"></i>
+                    <h3 class="font-bold text-lg mb-1">Principal</h3>
+                    <p class="text-sm text-gray-600">For school principals and administrators</p>
+                </button>
+                <button class="template-btn p-4 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-template="vice-principal">
+                    <i class="fas fa-user-friends text-4xl text-navy-light mb-2"></i>
+                    <h3 class="font-bold text-lg mb-1">Vice-Principal</h3>
+                    <p class="text-sm text-gray-600">For assistant principals and VPs</p>
+                </button>
+                <button class="template-btn p-4 border-2 border-gray-300 rounded-lg hover:border-navy hover:shadow-lg transition-all duration-300" data-template="superintendent">
+                    <i class="fas fa-crown text-4xl text-gold mb-2"></i>
+                    <h3 class="font-bold text-lg mb-1">Superintendent</h3>
+                    <p class="text-sm text-gray-600">For district superintendents</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-navy">Progress</span>
+                <span class="text-sm font-medium text-navy" id="progress-text">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="progress-bar" class="bg-gradient-to-r from-navy to-navy-light h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Main Content: Form + Preview -->
+        <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Resume Form -->
+            <div class="space-y-6">
+                <!-- Personal Information -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-navy mb-4 flex items-center">
+                        <i class="fas fa-user mr-3"></i>Personal Information
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                            <input type="text" id="fullName" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="Dr. Jane Smith">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
+                            <input type="text" id="title" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="Principal">
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                <input type="email" id="email" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="jane.smith@email.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                                <input type="tel" id="phone" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="(555) 123-4567">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                            <input type="text" id="location" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="Los Angeles, CA">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-navy mb-2 flex items-center">
+                        <i class="fas fa-align-left mr-3"></i>Professional Summary
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-4">A brief overview of your leadership experience and goals (3-5 sentences)</p>
+                    <div class="relative">
+                        <textarea id="summary" rows="4" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="Experienced education leader with 10+ years in K-12 administration..."></textarea>
+                        <button id="suggest-summary" class="mt-2 bg-navy-light hover:bg-navy text-white px-4 py-2 rounded-lg transition-all duration-300 text-sm">
+                            <i class="fas fa-magic mr-2"></i>Get AI Suggestions
+                        </button>
+                        <div id="summary-suggestions" class="mt-2 space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-navy mb-4 flex items-center justify-between">
+                        <span><i class="fas fa-briefcase mr-3"></i>Experience</span>
+                        <button id="add-experience" class="bg-gold hover:brightness-110 text-white px-4 py-2 rounded-lg transition-all duration-300 text-sm">
+                            <i class="fas fa-plus mr-2"></i>Add
+                        </button>
+                    </h2>
+                    <div id="experience-list" class="space-y-4">
+                        <!-- Experience items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-navy mb-4 flex items-center justify-between">
+                        <span><i class="fas fa-graduation-cap mr-3"></i>Education</span>
+                        <button id="add-education" class="bg-gold hover:brightness-110 text-white px-4 py-2 rounded-lg transition-all duration-300 text-sm">
+                            <i class="fas fa-plus mr-2"></i>Add
+                        </button>
+                    </h2>
+                    <div id="education-list" class="space-y-4">
+                        <!-- Education items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-navy mb-2 flex items-center">
+                        <i class="fas fa-star mr-3"></i>Skills
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-4">Add key leadership and technical skills</p>
+                    <div class="flex gap-2 mb-3">
+                        <input type="text" id="skill-input" class="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-navy transition-all duration-300" placeholder="e.g., Curriculum Development">
+                        <button id="add-skill" class="bg-navy text-white px-6 py-2 rounded-lg hover:bg-navy-light transition-all duration-300">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <button id="suggest-skills" class="mb-3 bg-navy-light hover:bg-navy text-white px-4 py-2 rounded-lg transition-all duration-300 text-sm">
+                        <i class="fas fa-magic mr-2"></i>Get AI Suggestions
+                    </button>
+                    <div id="skills-container" class="flex flex-wrap gap-2">
+                        <!-- Skill chips will be added here -->
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-bold text-navy mb-4 flex items-center justify-between">
+                        <span><i class="fas fa-certificate mr-3"></i>Certifications</span>
+                        <button id="add-certification" class="bg-gold hover:brightness-110 text-white px-4 py-2 rounded-lg transition-all duration-300 text-sm">
+                            <i class="fas fa-plus mr-2"></i>Add
+                        </button>
+                    </h2>
+                    <div id="certification-list" class="space-y-4">
+                        <!-- Certification items will be added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="lg:sticky lg:top-24 h-fit">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-navy">
+                            <i class="fas fa-eye mr-2"></i>Live Preview
+                        </h2>
+                        <button id="download-pdf" class="bg-gold hover:brightness-110 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300 shadow-lg hover:scale-105">
+                            <i class="fas fa-download mr-2"></i>Download PDF
+                        </button>
+                    </div>
+
+                    <!-- Resume Preview -->
+                    <div id="resume-preview" class="border-2 border-gray-300 rounded-lg p-8 bg-white min-h-screen">
+                        <div class="text-center text-gray-400 py-20">
+                            <i class="fas fa-file-alt text-6xl mb-4"></i>
+                            <p>Fill in your information to see the preview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save/Load Buttons -->
+        <div class="mt-6 flex gap-4 justify-center">
+            <button id="save-resume" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-lg hover:scale-105">
+                <i class="fas fa-save mr-2"></i>Save Progress
+            </button>
+            <button id="clear-resume" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-lg hover:scale-105">
+                <i class="fas fa-trash mr-2"></i>Clear All
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg">&copy; 2025 ACSA Education Leadership Prep Tool</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/resume.js"></script>
+</body>
+</html>
