@@ -209,10 +209,8 @@ async function askOllama(prompt, conversationHistory = []) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-        // Use relative path so it works locally and on Vercel
-        const apiUrl = window.location.hostname === 'localhost'
-            ? 'http://localhost:5555/api/chat'  // Local development
-            : '/api/chat';  // Production (Vercel)
+        // Use relative path so it works everywhere (local, tunnel, Vercel)
+        const apiUrl = '/api/chat';
 
         const response = await fetch(apiUrl, {
             method: 'POST',

@@ -7,8 +7,9 @@ package-lock.json
 .env.local
 .env.production
 
-# Local development server (old approach)
+# Local development servers (for local testing only)
 server.js
+server-unified.js
 
 # Vercel
 .vercel

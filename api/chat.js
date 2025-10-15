@@ -1,5 +1,5 @@
 // Vercel Serverless Function for ChatGPT API proxy
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
