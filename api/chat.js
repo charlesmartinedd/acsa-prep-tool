@@ -18,11 +18,8 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-        const { prompt, conversationHistory = [] } = req.body;
-
-        if (!prompt) {
-            return res.status(400).json({ error: 'Prompt is required' });
-        }
+        // Support both old format (prompt + conversationHistory) and new format (messages array)
+        const { prompt, conversationHistory = [], messages: directMessages, model = 'gpt-3.5-turbo', temperature = 0.7, maxTokens = 500 } = req.body;
 
         // Get API key from environment variable (secure!)
         const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -31,18 +28,27 @@ module.exports = async function handler(req, res) {
             return res.status(500).json({ error: 'OpenAI API key not configured' });
         }
 
-        // Build messages array
-        const messages = [
-            {
-                role: 'system',
-                content: 'You are an expert education leadership coach helping K-12 administrators prepare for principal, vice-principal, and superintendent positions. Provide practical, actionable advice based on California education standards and ACSA best practices.'
-            },
-            ...conversationHistory,
-            {
-                role: 'user',
-                content: prompt
-            }
-        ];
+        // Build messages array - support both formats
+        let messages;
+        if (directMessages && Array.isArray(directMessages)) {
+            // New format: messages array already provided
+            messages = directMessages;
+        } else if (prompt) {
+            // Old format: build from prompt + conversationHistory
+            messages = [
+                {
+                    role: 'system',
+                    content: 'You are an expert education leadership coach helping K-12 administrators prepare for principal, vice-principal, and superintendent positions. Provide practical, actionable advice based on California education standards and ACSA best practices.'
+                },
+                ...conversationHistory,
+                {
+                    role: 'user',
+                    content: prompt
+                }
+            ];
+        } else {
+            return res.status(400).json({ error: 'Either prompt or messages is required' });
+        }
 
         // Call OpenAI API
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -52,10 +58,10 @@ module.exports = async function handler(req, res) {
                 'Authorization': `Bearer ${OPENAI_API_KEY}`
             },
             body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
+                model: model,
                 messages: messages,
-                temperature: 0.7,
-                max_tokens: 500
+                temperature: temperature,
+                max_tokens: maxTokens
             })
         });
 
