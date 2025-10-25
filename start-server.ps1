@@ -16,7 +16,7 @@ if (-not $apiKey) {
 
 Write-Host "✅ API Key loaded from .env file" -ForegroundColor Green
 Write-Host "🤖 Model: GPT-5" -ForegroundColor Yellow
-Write-Host "🌡️  Temperature: 0.1`n" -ForegroundColor Yellow
+Write-Host "🌡️  Temperature: 1`n" -ForegroundColor Yellow
 
 # Set environment variable for this session only
 $env:OPENAI_API_KEY = $apiKey

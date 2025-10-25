@@ -254,7 +254,15 @@ async function askOllama(prompt, conversationHistory = []) {
 function formatAIResponse(text) {
     if (!text) return '';
 
+    // Convert markdown bold (**text**) to HTML <strong>
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // Convert markdown italic (*text* or _text_) to HTML <em>
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    text = text.replace(/_(.+?)_/g, '<em>$1</em>');
+
     // Convert bullet points
+    text = text.replace(/^• /gm, '• ');
     text = text.replace(/^\* /gm, '• ');
     text = text.replace(/^- /gm, '• ');
 

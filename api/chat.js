@@ -19,8 +19,7 @@ module.exports = async function handler(req, res) {
 
     try {
         // Support both old format (prompt + conversationHistory) and new format (messages array)
-        // Using GPT-5 (latest model released August 2025) for best quality responses
-        // Note: GPT-5 only supports temperature = 1 (default)
+        // Using GPT-5 (latest model) for best quality responses
         const { prompt, conversationHistory = [], messages: directMessages, model = 'gpt-5', temperature = 1, maxTokens = 500 } = req.body;
 
         // Get API key from environment variable (secure!)
@@ -40,7 +39,7 @@ module.exports = async function handler(req, res) {
             messages = [
                 {
                     role: 'system',
-                    content: 'You are an expert education leadership coach helping K-12 administrators prepare for principal, vice-principal, and superintendent positions. Provide practical, actionable advice based on California education standards and ACSA best practices.'
+                    content: 'You are an expert education leadership coach helping K-12 administrators prepare for principal, vice-principal, and superintendent positions. Provide practical, actionable advice based on California education standards and ACSA best practices. Format your responses in clean, readable text without using markdown formatting (no **, __, *, or other markdown symbols). Use plain text with clear paragraphs, bullet points with • symbols, and numbered lists where appropriate.'
                 },
                 ...conversationHistory,
                 {
@@ -63,7 +62,7 @@ module.exports = async function handler(req, res) {
                 model: model,
                 messages: messages,
                 temperature: temperature,
-                max_completion_tokens: maxTokens  // GPT-5 uses max_completion_tokens instead of max_tokens
+                max_completion_tokens: maxTokens  // GPT-5 uses max_completion_tokens
             })
         });
 
