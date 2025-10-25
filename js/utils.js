@@ -203,9 +203,9 @@ What specific topic would you like to know more about?
 *💡 You can also use our Resume Builder and Interview Practice tools!*`;
 }
 
-// Ask OpenAI GPT-4o via API - Works both locally and on Vercel!
+// Ask OpenAI GPT-5 via API - Works both locally and on Vercel!
 async function askOllama(prompt, conversationHistory = []) {
-    // Note: Function name kept as askOllama for backward compatibility
+    // Note: Function name kept as askOllama for backward compatibility, but now uses GPT-5
     try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout

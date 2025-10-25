@@ -158,7 +158,7 @@ acsa-tool/
 - **jsPDF**: PDF generation for resumes
 
 ### AI & APIs
-- **OpenAI API**: Powered by GPT-4o (latest model) with low temperature (0.1) for factual, consistent responses
+- **OpenAI API**: Powered by GPT-5 (latest model, released August 2025) with low temperature (0.1) for factual, consistent responses
   - API endpoint: Serverless function at `/api/chat`
   - Requires API key in `.env` file
 - **Web Speech API**: Voice recognition and text-to-speech (built into browsers)
@@ -209,7 +209,7 @@ acsa-tool/
 
 ```javascript
 // OpenAI API configuration (in api/chat.js)
-const model = 'gpt-4o';  // Latest GPT-4o model for best quality
+const model = 'gpt-5';  // Latest GPT-5 model (August 2025) for best quality
 const temperature = 0.1;  // Very low for factual, consistent responses
 const maxTokens = 500;
 
@@ -335,7 +335,7 @@ This project is created for educational purposes for ACSA members.
 ## 🙏 Acknowledgments
 
 - **ACSA** - Association of California School Administrators
-- **OpenAI** - GPT-4o AI model powering intelligent coaching
+- **OpenAI** - GPT-5 AI model powering intelligent coaching
 - **Tailwind CSS** - Utility-first CSS framework
 - **Font Awesome** - Icon library
 - **SortableJS** - Drag-and-drop library
