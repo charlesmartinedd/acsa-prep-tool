@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
 
     try {
         // Support both old format (prompt + conversationHistory) and new format (messages array)
-        const { prompt, conversationHistory = [], messages: directMessages, model = 'gpt-3.5-turbo', temperature = 0.7, maxTokens = 500 } = req.body;
+        const { prompt, conversationHistory = [], messages: directMessages, model = 'gpt-3.5-turbo', temperature = 0.0, maxTokens = 500 } = req.body;
 
         // Get API key from environment variable (secure!)
         const OPENAI_API_KEY = process.env.OPENAI_API_KEY;

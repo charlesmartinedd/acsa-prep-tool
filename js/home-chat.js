@@ -112,9 +112,17 @@ const homeChat = {
 - Leadership strategies and best practices
 - Guidance on using this prep tool
 
+IMPORTANT CONSTRAINTS:
+- Provide ONLY factual, well-established information about K-12 education leadership
+- Do NOT invent credentials, requirements, or policies
+- Base advice on standard California education practices and ACSA guidelines
+- If you don't know something specific, acknowledge it rather than guessing
+- Do NOT make up statistics, percentages, or data
+- Stick to commonly-known information about education leadership roles
+
 Keep responses brief (under 100 words), practical, and use bullet points when appropriate. If the question is about app features, guide users to the right section (Resume Builder, Interview Practice, Career Chat, or Resources).
 
-Be encouraging and professional.`;
+Be encouraging and professional, but always factual.`;
 
         // Build prompt with history context (last 3 exchanges)
         const recentHistory = this.conversationHistory.slice(-6); // Last 3 exchanges (user + assistant)

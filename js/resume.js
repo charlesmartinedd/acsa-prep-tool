@@ -386,16 +386,25 @@ const resumeBuilder = {
 
         utils.showToast('Getting AI suggestions...', 'info');
 
-        const prompt = `Suggest 4-5 strong bullet points for a ${exp.title} position in K-12 education leadership. Focus on:
-- Leadership and management achievements
-- Data-driven results with metrics
-- Team development and collaboration
-- Student outcomes and improvements
+        const prompt = `Suggest 4-5 bullet point templates for a ${exp.title} position in K-12 education leadership.
+
+IMPORTANT CONSTRAINTS:
+- Provide GENERIC TEMPLATES only, using placeholders like [X%], [number], [school name]
+- Do NOT invent specific metrics, percentages, or accomplishments
+- Focus on TYPICAL responsibilities for this role
+- Use standard action verbs appropriate for education leadership
+- Base suggestions on common duties for ${exp.title} positions
 
 Role: ${exp.title}
 Organization: ${exp.organization || 'School'}
 
-Format as a numbered list. Use action verbs like "Led", "Implemented", "Developed", "Achieved". Include specific numbers where appropriate.`;
+Format as a numbered list. Use action verbs like "Led", "Implemented", "Developed", "Managed", "Coordinated".
+
+Example format:
+1. Led team of [number] teachers in implementing [initiative]
+2. Managed [responsibility] resulting in [measurable outcome]
+
+Provide templates the user can customize with their actual data. Do not make up specific numbers or achievements.`;
 
         const response = await utils.askOllama(prompt);
 
@@ -519,12 +528,21 @@ Format as a numbered list. Use action verbs like "Led", "Implemented", "Develope
 
         const role = this.data.personal.title || this.data.template || 'education leader';
 
-        const prompt = `Suggest 8-10 key skills for a ${role} in K-12 education. Include a mix of:
-- Leadership and management skills
-- Technical and instructional skills
-- Interpersonal and communication skills
+        const prompt = `Suggest 8-10 key skills for a ${role} in K-12 education.
 
-Format as a simple comma-separated list. Be specific and relevant to education leadership.`;
+IMPORTANT CONSTRAINTS:
+- Suggest ONLY standard, commonly-required skills for this position
+- Do not invent specialized or uncommon skills
+- Base suggestions on typical job requirements for ${role} positions
+- Use standard terminology used in California K-12 education
+- Be factual and conservative in suggestions
+
+Include a mix of:
+- Leadership and management skills (standard for this role)
+- Technical and instructional skills (commonly required)
+- Interpersonal and communication skills (typical for education leadership)
+
+Format as a simple comma-separated list. Use only established, recognized skills for K-12 education leadership.`;
 
         const response = await utils.askOllama(prompt);
 
@@ -576,16 +594,31 @@ Format as a simple comma-separated list. Be specific and relevant to education l
 
         const role = this.data.personal.title || this.data.template || 'education leader';
         const experience = this.data.experience[0];
+        const allExperience = this.data.experience;
+        const education = this.data.education[0];
+        const skills = this.data.skills.slice(0, 5).join(', ');
 
-        const prompt = `Write a professional summary (3-5 sentences) for a ${role} resume in K-12 education. Include:
-- Years of experience
-- Key leadership strengths
-- Focus on student outcomes and equity
-- Professional goals
+        const prompt = `Write a professional summary (3-5 sentences) for a ${role} resume in K-12 education.
 
-${experience ? `Current role: ${experience.title} at ${experience.organization}` : ''}
+IMPORTANT: Base the summary ONLY on the following resume data provided. Do not invent or assume any information not listed below.
 
-Make it compelling and achievement-focused. Use action-oriented language.`;
+Resume Data:
+- Title/Role: ${role}
+${experience ? `- Current Position: ${experience.title} at ${experience.organization}` : '- Current Position: Not provided'}
+${experience && experience.startDate ? `- Years in Current Role: Started ${experience.startDate}` : ''}
+${allExperience.length > 0 ? `- Total positions listed: ${allExperience.length}` : ''}
+${education ? `- Education: ${education.degree}` : '- Education: Not provided'}
+${skills ? `- Key Skills: ${skills}` : '- Skills: Not provided'}
+
+CONSTRAINTS:
+- Use ONLY the information provided above
+- Do not mention years of experience unless you can calculate it from the dates provided
+- Do not invent accomplishments, metrics, or achievements
+- Do not add skills or qualities not listed in the resume data
+- Be factual and accurate only
+- If information is missing, do not make it up
+
+Write a professional summary based strictly on this data.`;
 
         const response = await utils.askOllama(prompt);
 

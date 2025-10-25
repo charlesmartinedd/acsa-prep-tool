@@ -144,13 +144,20 @@ const interviewPractice = {
         // Build AI prompt for question generation
         const prompt = `Generate 7 realistic interview questions for a ${role} position at the ${level} level in California K-12 education.
 
+IMPORTANT CONSTRAINTS:
+- Generate ONLY commonly-asked, standard interview questions for this role
+- Do NOT create unusual, creative, or uncommon questions
+- Base questions on typical hiring practices in California K-12 schools
+- Questions should be realistic and commonly used by school districts
+- Avoid overly specific or niche topics
+
 Include a mix of:
 - 2 behavioral questions (using "Tell me about a time...")
 - 2 leadership philosophy questions
 - 2 scenario-based questions
 - 1 data/improvement question
 
-Each question should be specific to education leadership. Return ONLY the questions, numbered 1-7, one per line.`;
+Each question should be standard for ${role} education leadership interviews. Return ONLY the questions, numbered 1-7, one per line. No additional commentary.`;
 
         try {
             const response = await utils.askOllama(prompt);
@@ -427,21 +434,28 @@ Provide your evaluation in this EXACT format:
 SCORE: [number from 1-10]
 
 FEEDBACK:
-[2-3 sentences of specific feedback on the answer's strengths and areas for improvement]
+[2-3 sentences of specific, factual feedback based ONLY on what the candidate actually said in their answer. Do not make assumptions or suggest things they didn't mention.]
 
 SUGGESTIONS:
-• [specific suggestion 1]
-• [specific suggestion 2]
-• [specific suggestion 3]
+• [specific suggestion 1 - based only on what they said]
+• [specific suggestion 2 - based only on what they said]
+• [specific suggestion 3 - based only on what they said]
 
 FOLLOWUP:
-[Generate one relevant follow-up question based on their answer]
+[Generate one relevant follow-up question that directly relates to something specific they mentioned in their answer]
+
+IMPORTANT CONSTRAINTS:
+- Base your evaluation ONLY on the actual content of their answer
+- Do not invent or assume experiences they didn't mention
+- Do not suggest accomplishments or metrics they didn't state
+- Focus on structure, clarity, and completeness of their actual response
+- Be factual and objective, not creative
 
 Evaluation criteria:
 - Use of STAR method (Situation, Task, Action, Result)
-- Specific examples and concrete details
-- Leadership qualities demonstrated
-- Quantifiable results mentioned
+- Specific examples and concrete details THEY PROVIDED
+- Leadership qualities THEY DEMONSTRATED in their answer
+- Quantifiable results THEY MENTIONED
 - Relevance to K-12 education leadership
 - Clarity and communication`;
 
