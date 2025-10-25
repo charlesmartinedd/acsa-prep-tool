@@ -2,27 +2,26 @@
 
 Get the ACSA Education Leadership Prep Tool running in **5 minutes**!
 
-## Step 1: Setup Ollama (for AI Features)
+## Step 1: Configure OpenAI API (for AI Features)
 
-### Install Ollama
-Visit **https://ollama.com** and download for your OS.
+### Get Your API Key
+1. Visit **https://platform.openai.com/api-keys**
+2. Sign in or create an account
+3. Generate a new API key
+4. Copy the key (starts with `sk-...`)
 
-### Pull Llama 3 Model
+### Create .env File
+In the project root, create a file named `.env`:
 ```bash
-ollama pull llama3
+OPENAI_API_KEY=your-api-key-here
 ```
 
-### Start Ollama Server
-```bash
-ollama serve
-```
+**Important:** Replace `your-api-key-here` with your actual API key.
 
-**Keep this terminal running!** The AI features need Ollama to be active.
+### Verify Configuration
+Make sure your `.env` file is in the root directory (same level as `index.html`).
 
-### Verify Ollama is Working
-Open in browser: `http://localhost:11434/api/version`
-
-You should see version information. ✅
+✅ AI features will now work!
 
 ---
 
@@ -94,15 +93,11 @@ Go to: **http://localhost:8000**
 ## 🐛 Troubleshooting
 
 ### AI Not Working?
-```bash
-# Check Ollama is running
-ollama serve
-
-# Verify model is installed
-ollama list
-
-# Should see "llama3" in the list
-```
+1. Verify `.env` file exists in project root
+2. Check API key is correct (starts with `sk-...`)
+3. Ensure you have OpenAI credits available
+4. Check browser console (F12) for error messages
+5. Verify API status at https://status.openai.com
 
 ### Voice Not Working?
 - Use **Chrome** browser
@@ -138,8 +133,9 @@ The tool is now ready to help you prepare for your education leadership intervie
 
 1. Check the full **README.md** for detailed troubleshooting
 2. Verify browser console (F12 → Console) for errors
-3. Ensure Ollama is running with `ollama serve`
+3. Ensure your OpenAI API key is properly configured in `.env`
 4. Try Chrome for best compatibility
+5. Check OpenAI account has available credits
 
 ---
 

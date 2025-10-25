@@ -203,8 +203,9 @@ What specific topic would you like to know more about?
 *💡 You can also use our Resume Builder and Interview Practice tools!*`;
 }
 
-// Ask ChatGPT via API - Works both locally and on Vercel!
+// Ask OpenAI GPT-4o via API - Works both locally and on Vercel!
 async function askOllama(prompt, conversationHistory = []) {
+    // Note: Function name kept as askOllama for backward compatibility
     try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
@@ -242,22 +243,12 @@ async function askOllama(prompt, conversationHistory = []) {
 
         // Fallback to smart response if server is down
         const smartResponse = getSmartResponse(prompt);
-        showToast('Using instant response (ChatGPT unavailable)', 'info');
+        showToast('Using instant response (OpenAI API unavailable)', 'info');
         return smartResponse;
     }
 }
 
-// Check if Ollama is available
-async function checkOllamaStatus() {
-    try {
-        const response = await fetch('http://localhost:11434/api/version', {
-            method: 'GET'
-        });
-        return response.ok;
-    } catch (error) {
-        return false;
-    }
-}
+// Note: Ollama status check removed - now using OpenAI API via serverless function
 
 // Format text with line breaks and bullets
 function formatAIResponse(text) {
@@ -439,7 +430,6 @@ window.utils = {
     showSpinner,
     showToast,
     askOllama,
-    checkOllamaStatus,
     formatAIResponse,
     saveToStorage,
     loadFromStorage,

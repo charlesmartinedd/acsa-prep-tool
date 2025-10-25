@@ -81,16 +81,12 @@ A comprehensive, interactive web application designed to help ACSA (Association 
 
 ### Prerequisites
 
-1. **Ollama with Llama 3** (for AI features)
-   ```bash
-   # Install Ollama from https://ollama.com
-
-   # Pull Llama 3 model
-   ollama pull llama3
-
-   # Start Ollama server
-   ollama serve
-   ```
+1. **OpenAI API Key** (for AI features)
+   - Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+   - Create a `.env` file in the project root:
+     ```bash
+     OPENAI_API_KEY=your-api-key-here
+     ```
 
 2. **Modern Web Browser** (Chrome, Firefox, Edge, Safari)
    - For voice features, Chrome is recommended
@@ -125,9 +121,9 @@ A comprehensive, interactive web application designed to help ACSA (Association 
    http://localhost:8000
    ```
 
-4. **Verify Ollama is Running**
-   - Check that the chatbot responds (may show offline warning if not)
-   - Verify at: `http://localhost:11434/api/version`
+4. **Verify AI Features**
+   - The chatbot should respond immediately using OpenAI API
+   - Make sure your `.env` file contains your OpenAI API key
 
 ## 📁 Project Structure
 
@@ -162,8 +158,9 @@ acsa-tool/
 - **jsPDF**: PDF generation for resumes
 
 ### AI & APIs
-- **Ollama** + **Llama 3**: Local, private AI (free)
-  - API endpoint: `http://localhost:11434/api/generate`
+- **OpenAI API**: Powered by GPT-4o (latest model) with low temperature (0.1) for factual, consistent responses
+  - API endpoint: Serverless function at `/api/chat`
+  - Requires API key in `.env` file
 - **Web Speech API**: Voice recognition and text-to-speech (built into browsers)
 
 ### Storage
@@ -211,14 +208,13 @@ acsa-tool/
 ### AI Settings (in `js/utils.js`)
 
 ```javascript
-// Ollama API endpoint
-const OLLAMA_URL = 'http://localhost:11434/api/generate';
+// OpenAI API configuration (in api/chat.js)
+const model = 'gpt-4o';  // Latest GPT-4o model for best quality
+const temperature = 0.1;  // Very low for factual, consistent responses
+const maxTokens = 500;
 
 // Request timeout (ms)
-const AI_TIMEOUT = 10000;
-
-// Model name
-const AI_MODEL = 'llama3';
+const AI_TIMEOUT = 30000;
 ```
 
 ### Voice Settings
@@ -238,19 +234,14 @@ recognition.lang = 'en-US';
 **Problem**: Chatbot shows "AI offline" message
 
 **Solutions**:
-1. Verify Ollama is installed and running:
+1. Verify your `.env` file contains your OpenAI API key:
    ```bash
-   ollama serve
+   OPENAI_API_KEY=sk-your-key-here
    ```
-2. Check Ollama is accessible:
-   ```bash
-   curl http://localhost:11434/api/version
-   ```
-3. Ensure Llama 3 model is pulled:
-   ```bash
-   ollama pull llama3
-   ```
+2. Check that your API key is valid at [OpenAI Platform](https://platform.openai.com/api-keys)
+3. Ensure you have available credits in your OpenAI account
 4. Check browser console for errors (F12 → Console)
+5. Verify the API endpoint is accessible: `/api/chat`
 
 ### Voice Features Not Working
 
@@ -309,11 +300,12 @@ recognition.lang = 'en-US';
 
 ## 🔒 Privacy & Security
 
-- **Local AI**: All AI processing happens locally via Ollama (no data sent to external servers)
-- **localStorage**: Data stored only in your browser
-- **No Account Required**: No sign-up or personal data collection
+- **Secure API**: OpenAI API calls are made through a serverless function
+- **localStorage**: Resume and practice data stored only in your browser
+- **No Account Required**: No sign-up needed for the app (OpenAI API key required for AI features)
 - **No Tracking**: No analytics or tracking cookies
 - **Open Source**: All code is visible and auditable
+- **API Key Security**: Your OpenAI API key is stored in `.env` file (never committed to git)
 
 ## 🎓 Educational Use
 
@@ -343,7 +335,7 @@ This project is created for educational purposes for ACSA members.
 ## 🙏 Acknowledgments
 
 - **ACSA** - Association of California School Administrators
-- **Ollama** - Local AI inference
+- **OpenAI** - GPT-4o AI model powering intelligent coaching
 - **Tailwind CSS** - Utility-first CSS framework
 - **Font Awesome** - Icon library
 - **SortableJS** - Drag-and-drop library
@@ -354,8 +346,9 @@ This project is created for educational purposes for ACSA members.
 For issues or questions:
 1. Check this README troubleshooting section
 2. Review browser console for errors (F12 → Console)
-3. Verify Ollama setup: `ollama serve` and `ollama pull llama3`
+3. Verify your OpenAI API key is configured in `.env` file
 4. Test in Chrome for best compatibility
+5. Check OpenAI API status at [status.openai.com](https://status.openai.com)
 
 ---
 

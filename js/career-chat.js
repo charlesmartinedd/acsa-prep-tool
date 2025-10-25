@@ -68,13 +68,12 @@ const careerChat = {
     },
 
     async checkAIStatus() {
-        const isAvailable = await utils.checkOllamaStatus();
-        if (!isAvailable) {
-            this.displayMessage(
-                '⚠️ <strong>AI is currently offline.</strong><br><br>To enable AI features:<br>1. Install Ollama from <a href="https://ollama.com" target="_blank" class="underline text-navy-light">ollama.com</a><br>2. Run: <code class="bg-gray-200 px-2 py-1 rounded">ollama pull llama3</code><br>3. Run: <code class="bg-gray-200 px-2 py-1 rounded">ollama serve</code><br><br>You can still explore other features of the app!',
-                false
-            );
-        }
+        // AI status check removed - now using OpenAI API which is always available
+        // Display welcome message instead
+        this.displayMessage(
+            '🎯 <strong>Career Guidance AI Ready!</strong> I\'m powered by OpenAI and ready to help you plan your path to education leadership. Ask me about career steps, credentials, timelines, or professional development!',
+            false
+        );
     },
 
     async sendMessage() {
@@ -164,7 +163,7 @@ Remember: You're speaking to dedicated education professionals. Be professional,
 
         contextPrompt += `User: ${message}\nAssistant:`;
 
-        // Call Ollama
+        // Call OpenAI API via serverless function
         const response = await utils.askOllama(contextPrompt);
 
         return response;

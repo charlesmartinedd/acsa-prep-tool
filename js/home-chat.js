@@ -52,13 +52,12 @@ const homeChat = {
     },
 
     async checkAIStatus() {
-        const isAvailable = await utils.checkOllamaStatus();
-        if (!isAvailable) {
-            this.displayMessage(
-                '⚠️ <strong>AI is offline.</strong> Make sure Ollama is running:<br>1. Open terminal<br>2. Run: <code class="bg-gray-200 px-2 py-1 rounded">ollama serve</code><br><br>You can still explore the app features!',
-                false
-            );
-        }
+        // AI status check removed - now using OpenAI API which is always available
+        // Display welcome message instead
+        this.displayMessage(
+            '👋 <strong>Welcome!</strong> I\'m your AI career coach, powered by OpenAI. I can help with interview prep, resume tips, credential requirements, and career guidance. What would you like to know?',
+            false
+        );
     },
 
     async sendMessage() {
@@ -134,7 +133,7 @@ Be encouraging and professional, but always factual.`;
 
         contextPrompt += `User: ${message}\nAssistant:`;
 
-        // Call Ollama
+        // Call OpenAI API via serverless function
         const response = await utils.askOllama(contextPrompt);
 
         return response;
