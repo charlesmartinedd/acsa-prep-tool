@@ -19,9 +19,9 @@ module.exports = async function handler(req, res) {
 
     try {
         // Support both old format (prompt + conversationHistory) and new format (messages array)
-        // Temperature set to 0.1 (very low) to minimize hallucinations and ensure factual responses
         // Using GPT-5 (latest model released August 2025) for best quality responses
-        const { prompt, conversationHistory = [], messages: directMessages, model = 'gpt-5', temperature = 0.1, maxTokens = 500 } = req.body;
+        // Note: GPT-5 only supports temperature = 1 (default)
+        const { prompt, conversationHistory = [], messages: directMessages, model = 'gpt-5', temperature = 1, maxTokens = 500 } = req.body;
 
         // Get API key from environment variable (secure!)
         const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -63,7 +63,7 @@ module.exports = async function handler(req, res) {
                 model: model,
                 messages: messages,
                 temperature: temperature,
-                max_tokens: maxTokens
+                max_completion_tokens: maxTokens  // GPT-5 uses max_completion_tokens instead of max_tokens
             })
         });
 

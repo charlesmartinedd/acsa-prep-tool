@@ -404,18 +404,43 @@ function speak(text, rate = 1.0, pitch = 1.0) {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = rate;
-    utterance.pitch = pitch;
+    // Function to speak with loaded voices
+    const speakWithVoices = () => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = rate;
+        utterance.pitch = pitch;
 
-    // Use a good quality voice if available
+        // Get voices
+        const voices = window.speechSynthesis.getVoices();
+
+        // Try to find a good quality voice
+        const preferredVoice = voices.find(voice =>
+            voice.lang.startsWith('en') &&
+            (voice.name.includes('Google') || voice.name.includes('Microsoft') || voice.name.includes('Natural'))
+        );
+
+        if (preferredVoice) {
+            utterance.voice = preferredVoice;
+        } else if (voices.length > 0) {
+            // Use first English voice if no preferred voice found
+            utterance.voice = voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+        }
+
+        window.speechSynthesis.speak(utterance);
+    };
+
+    // Check if voices are loaded
     const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(voice => voice.lang === 'en-US' && voice.name.includes('Google'));
-    if (preferredVoice) {
-        utterance.voice = preferredVoice;
+    if (voices.length > 0) {
+        speakWithVoices();
+    } else {
+        // Wait for voices to load
+        window.speechSynthesis.onvoiceschanged = () => {
+            speakWithVoices();
+        };
+        // Trigger voice loading
+        window.speechSynthesis.getVoices();
     }
-
-    window.speechSynthesis.speak(utterance);
 }
 
 // Stop speech
